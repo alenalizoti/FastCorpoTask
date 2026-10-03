@@ -22,7 +22,7 @@ final class Request{
         }else{
             $input = $_POST;
         }
-        $input = array_merge($input, $_GET);
+        $input = array_merge($_GET, $input);
         return new self($method, $path, $input);
     }
     public function input(string $key, mixed $default = null): mixed{
