@@ -37,4 +37,21 @@ final class AuthService {
 
         return $userId;
     }
+
+    public function login($email, $password){
+        $user = $this->userRepository->findByEmail($email);
+
+        if($user == null || !password_verify($password, $user['password_hash']) ){
+            throw new \DomainException('Invalid email or password');
+        }
+
+        $this->activityRepository->create($user['id'], EventType::Login);
+
+        return [
+            'id' => $user['id'],
+            'name' => $user['name'],
+            'role' => $user['role']
+        ];
+
+    }
 }

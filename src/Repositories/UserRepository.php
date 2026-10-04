@@ -5,7 +5,7 @@ namespace App\Repositories;
 final class UserRepository {
     public function __construct(private \PDO $pdo){}
         public function findByEmail(string $email) : ?array {
-            $stmt = $this->pdo->prepare('select id,email, password_hash, role from users where email = ?');
+            $stmt = $this->pdo->prepare('select id,name, email, password_hash, role from users where email = ?');
             $stmt->execute([$email]);
             $row = $stmt->fetch();
 

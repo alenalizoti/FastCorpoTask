@@ -15,8 +15,8 @@ final class AuthController{
     }
     public function register(Request $request){
         $name = trim((string) $request->input('name',''));
-        $email = $request->input('email','');
-        $password = strtolower($request->input('password',''));
+        $email = strtolower($request->input('email',''));
+        $password = $request->input('password','');
 
         $errors = $this->validateRegistration($name, $email, $password);
 
@@ -39,6 +39,31 @@ final class AuthController{
 
 
     }
+    public function showLogin(Request $request) : Response{
+        return $this->view->render('auth/login', [
+            'registered' => $request->input['registered'] === 1
+        ]);
+    }
+
+    public function login(Request $request){
+        $email = strtolower($request->input('email',''));
+        $password = $request->input('password', '');
+        try{
+            $user = $this->authService->login($email, $password);
+
+        }catch(DomainException $e){
+            return $this->view->render('auth/login', [
+                'errors' => ['email' => $e->getMessage()],
+                'old'    => ['email' => $email],
+            ],422);
+        }
+
+        session_regenerate_id(true);
+        $_SESSION['user'] = $user;
+        return Response::redirect('/page-a');
+
+    }
+
     private function validateRegistration($name, $email, $password) : array{
       $errors = [];
 
@@ -62,6 +87,7 @@ final class AuthController{
 
         return $errors;
     }
+
 
 
 }
