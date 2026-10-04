@@ -7,14 +7,24 @@ use App\Core\Database;
 use App\Http\Controllers\AuthController;
 use App\Repositories\ActivityEventRepository;
 use App\Repositories\UserRepository;
+use App\Services\AuthService;
+
 
 $container = new Container();
 
 $container->set(View::class, fn() => new View(__DIR__ . '/../views'));
 $container->set(PDO::class, fn() => Database::connect(require __DIR__ . '/../config/database.php'));
 
-$container->set(AuthController::class, fn(Container $c) => new AuthController($c->get(View::class)));
+$container->set(AuthController::class, fn(Container $c) => new AuthController
+($c->get(View::class),
+($c->get(AuthService::class))
+));
 $container->set(UserRepository::class, fn(Container $c) => new UserRepository($c->get(PDO::class)));
 $container->set(ActivityEventRepository::class, fn(Container $c) => new ActivityEventRepository($c->get(PDO::class)));
+$container->set(AuthService::class, fn(Container $c) => new AuthService(
+    $c->get(PDO::class),
+    $c->get(UserRepository::class),
+    $c->get(ActivityEventRepository::class),
+));
 
 return $container;
