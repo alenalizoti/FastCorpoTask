@@ -31,6 +31,18 @@ final class Response{
         );
     }
 
+    public static function download(string $path, string $filename) : self{
+        return new self(
+            file_get_contents($path),
+            200,
+            [
+                'Content-Type'        => 'application/octet-stream',
+                'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+                'Content-Length'      => (string) filesize($path),
+            ]
+        );
+    }
+
     public function send() : void{
         http_response_code($this->statusCode);
         foreach ($this->headers as $name => $value) {

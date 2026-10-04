@@ -27,4 +27,23 @@ final class PageController{
         return Response::json(['message' => 'thankYou'], 201);
 
     }
+
+    public function pageB(Request $request) : Response{
+        $userId = $_SESSION['user']['id'];
+        $this->activityEventRepository->create($userId, EventType::PageView, 'page-b');
+
+        return $this->view->render('pages/page-b', ['user' => $_SESSION['user']]);
+    }
+
+    public function download(Request $request) : Response{
+        $path = __DIR__ . '/../../../storage/test.exe';
+        if (!is_file($path)) {
+            throw new \RuntimeException('Download file is missing.');
+        }
+
+        $userId = $_SESSION['user']['id'];
+        $this->activityEventRepository->create($userId, EventType::ButtonClick, 'download');
+
+        return Response::download($path, 'test.exe');
+    }
 }
