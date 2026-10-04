@@ -23,6 +23,8 @@
 
         <?php if (!empty($registered)): ?>
             <p class="success">Account created. Please log in.</p>
+        <?php elseif (!empty($logout)):?>
+            <p class="success">Successfully logged out!</p>
         <?php endif; ?>
 
         <form method="post" action="/login">

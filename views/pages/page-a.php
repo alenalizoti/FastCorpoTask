@@ -20,6 +20,9 @@
         <a href="/page-a">Page A</a>
         <a href="/page-b">Page B</a>
         <span class="user">Hi, <?= $this->e($user['name']) ?></span>
+        <form method="post" action="/logout" class="logout">
+            <button type="submit">Logout</button>
+        </form>
     </nav>
 
     <main>

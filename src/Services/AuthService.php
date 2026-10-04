@@ -54,4 +54,8 @@ final class AuthService {
         ];
 
     }
+
+    public function logout(int $userId){
+        $this->activityRepository->create($userId, EventType::Logout);
+    }
 }

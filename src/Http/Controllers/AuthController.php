@@ -41,7 +41,9 @@ final class AuthController{
     }
     public function showLogin(Request $request) : Response{
         return $this->view->render('auth/login', [
-            'registered' => $request->input('registered') === '1'
+            'registered' => $request->input('registered') === '1',
+            'logout' => $request->input('logout') === '1',
+
         ]);
     }
 
@@ -62,6 +64,14 @@ final class AuthController{
         $_SESSION['user'] = $user;
         return Response::redirect('/page-a');
 
+    }
+
+    public function logout(Request $request) : Response {
+        $this->authService->logout($_SESSION['user']['id']);
+        $_SESSION = [];
+        session_destroy();
+
+        return Response::redirect('/login?logout=1');
     }
 
     private function validateRegistration($name, $email, $password) : array{

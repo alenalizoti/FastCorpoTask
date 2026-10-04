@@ -11,6 +11,8 @@ return function (Router $router) : void {
     $router->post('/register',[AuthController::class, 'register']);
     $router->get('/login', [AuthController::class, 'showLogin']);
     $router->post('/login',[AuthController::class, 'login']);
+    $router->post('/logout', [AuthController::class, 'logout'], [AuthMiddleware::class]);
+
     $router->get('/page-a', [PageController::class, 'pageA'], [AuthMiddleware::class]);
     $router->post('/page-a/buy', [PageController::class, 'buyCow'], [AuthMiddleware::class]);
     $router->get('/page-b', [PageController::class, 'pageB'], [AuthMiddleware::class]);
