@@ -5,9 +5,11 @@ use App\Core\Container;
 use App\Core\View;
 use App\Core\Database;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PageController;
 use App\Repositories\ActivityEventRepository;
 use App\Repositories\UserRepository;
 use App\Services\AuthService;
+use App\Http\Middleware\AuthMiddleware;
 
 
 $container = new Container();
@@ -24,6 +26,11 @@ $container->set(ActivityEventRepository::class, fn(Container $c) => new Activity
 $container->set(AuthService::class, fn(Container $c) => new AuthService(
     $c->get(PDO::class),
     $c->get(UserRepository::class),
+    $c->get(ActivityEventRepository::class),
+));
+$container->set(AuthMiddleware::class, fn() => new AuthMiddleware());
+$container->set(PageController::class, fn(Container $c) => new PageController(
+    $c->get(View::class),
     $c->get(ActivityEventRepository::class),
 ));
 

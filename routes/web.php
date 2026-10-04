@@ -2,6 +2,8 @@
 declare(strict_types=1);
 use App\Http\Controllers\AuthController;
 use App\Core\Router;
+use App\Http\Middleware\AuthMiddleware;
+use App\Http\Controllers\PageController;
 
 
 return function (Router $router) : void {
@@ -9,4 +11,6 @@ return function (Router $router) : void {
     $router->post('/register',[AuthController::class, 'register']);
     $router->get('/login', [AuthController::class, 'showLogin']);
     $router->post('/login',[AuthController::class, 'login']);
+    $router->get('/page-a', [PageController::class, 'pageA'], [AuthMiddleware::class]);
+    $router->post('/page-a/buy', [PageController::class, 'buyCow'], [AuthMiddleware::class]);
 };

@@ -41,7 +41,7 @@ final class AuthController{
     }
     public function showLogin(Request $request) : Response{
         return $this->view->render('auth/login', [
-            'registered' => $request->input['registered'] === 1
+            'registered' => $request->input('registered') === '1'
         ]);
     }
 
