@@ -3,10 +3,13 @@ declare(strict_types=1);
 namespace App\Core;
 use App\Core\Request;
 use App\Core\Response;
+use App\Core\Container;
 
 
 class Router {
     private array $routes = [];
+
+    public function __construct(private Container $container) {}
 
     public function get(string $path, array $handler): void {
         $this->routes['GET'][$path] = $handler;
@@ -27,20 +30,10 @@ class Router {
         }else{
             return Response::html('404 Not Found', 404);
         }
+    
 
-        if (!class_exists($controllerClass)) {
-            throw new \LogicException("Controller {$controllerClass} not found");
-        }
-
-        $controller = new $controllerClass();
-
-        if (!method_exists($controller, $action)) {
-            throw new \LogicException("Method {$controllerClass}::{$action} not found");
-        }
-
+        $controller = $this->container->get($controllerClass);
         return $controller->$action($request);
-        
-
     }
 
 }
