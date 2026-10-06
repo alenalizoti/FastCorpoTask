@@ -6,6 +6,8 @@ use App\Core\View;
 use App\Core\Database;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\StatsController;
+use App\Http\Middleware\AdminMiddleware;
 use App\Repositories\ActivityEventRepository;
 use App\Repositories\UserRepository;
 use App\Services\AuthService;
@@ -33,5 +35,8 @@ $container->set(PageController::class, fn(Container $c) => new PageController(
     $c->get(View::class),
     $c->get(ActivityEventRepository::class),
 ));
+
+$container->set(AdminMiddleware::class, fn() => new AdminMiddleware());
+$container->set(StatsController::class, fn() => new StatsController());
 
 return $container;

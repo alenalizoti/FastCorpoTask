@@ -2,6 +2,8 @@
 declare(strict_types=1);
 use App\Http\Controllers\AuthController;
 use App\Core\Router;
+use App\Http\Controllers\StatsController;
+use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\AuthMiddleware;
 use App\Http\Controllers\PageController;
 
@@ -18,5 +20,5 @@ return function (Router $router) : void {
     $router->get('/page-b', [PageController::class, 'pageB'], [AuthMiddleware::class]);
     $router->post('/page-b/download', [PageController::class, 'download'], [AuthMiddleware::class]);
 
-
+    $router->get('/stats', [StatsController::class, 'index'], [AuthMiddleware::class, AdminMiddleware::class]);
 };
