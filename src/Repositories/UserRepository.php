@@ -18,4 +18,8 @@ final class UserRepository {
 
             return (int) $this->pdo->lastInsertId();
         }
+
+        public function all() : array {
+            return $this->pdo->query('select id, name, email from users')->fetchAll();
+        }
 }

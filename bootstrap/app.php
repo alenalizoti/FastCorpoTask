@@ -37,6 +37,10 @@ $container->set(PageController::class, fn(Container $c) => new PageController(
 ));
 
 $container->set(AdminMiddleware::class, fn() => new AdminMiddleware());
-$container->set(StatsController::class, fn() => new StatsController());
+$container->set(StatsController::class, fn(Container $c) => new StatsController(
+    $c->get(View::class),
+    $c->get(UserRepository::class),
+    $c->get(ActivityEventRepository::class)
+));
 
 return $container;

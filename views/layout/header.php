@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= $title ?></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <style>
         body { font-family: system-ui, sans-serif; background: #f4f5f7; margin: 0; }
         nav { background: #fff; padding: 1rem 2rem; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06); display: flex; gap: 1.5rem; align-items: center; }
