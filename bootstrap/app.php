@@ -6,8 +6,10 @@ use App\Core\View;
 use App\Core\Database;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\StatsController;
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\CsrfMiddleware;
 use App\Repositories\ActivityEventRepository;
 use App\Repositories\UserRepository;
 use App\Services\AuthService;
@@ -42,5 +44,10 @@ $container->set(StatsController::class, fn(Container $c) => new StatsController(
     $c->get(UserRepository::class),
     $c->get(ActivityEventRepository::class)
 ));
+$container->set(ReportController::class, fn(Container $c) => new ReportController(
+    $c->get(View::class),
+    $c->get(ActivityEventRepository::class)
+));
+$container->set(CsrfMiddleware::class, fn() => new CsrfMiddleware());
 
 return $container;

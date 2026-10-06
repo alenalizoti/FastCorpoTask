@@ -22,9 +22,11 @@
         <a href="/page-b">Page B</a>
         <?php if ($_SESSION['user']['role'] === 'admin'): ?>
             <a href="/stats">Stats</a>
+            <a href="/report">Report</a>
         <?php endif; ?>
         <span class="user">Hi, <?= $this->e($user['name']) ?></span>
         <form method="post" action="/logout" class="logout">
+            <input type="hidden" name="_csrf" value="<?= $this->e($_SESSION['csrf']) ?>">
             <button type="submit">Logout</button>
         </form>
     </nav>

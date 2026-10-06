@@ -8,6 +8,7 @@ require_once __DIR__ . '/../layout/header.php';
         <p>Click the button below to download the file.</p>
 
         <form method="post" action="/page-b/download">
+            <input type="hidden" name="_csrf" value="<?= $this->e($_SESSION['csrf']) ?>">
             <button type="submit">Download</button>
         </form>
     </main>

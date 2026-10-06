@@ -50,4 +50,21 @@ final class ActivityEventRepository{
 
         return $stmt->fetchAll();
     }
+
+    public function dailyReport(string $from, string $to) : array{
+        $stmt = $this->pdo->prepare("
+            select date(created_at) as day,
+                sum(event_type = 'view_page' and target = 'page-a') as page_a_views,
+                sum(event_type = 'view_page' and target = 'page-b') as page_b_views,
+                sum(event_type = 'button_click' and target = 'buy_cow') as buy_cow_clicks,
+                sum(event_type = 'button_click' and target = 'download') as download_clicks
+            from activity_events
+            where created_at >= ? and created_at < ?
+            group by day
+            order by day");
+
+            $stmt->execute([$from . ' 00:00:00',(new \DateTimeImmutable($to))->modify('+1 day')->format('Y-m-d 00:00:00')]);
+            return $stmt->fetchAll();
+
+    }
 }

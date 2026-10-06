@@ -11,7 +11,10 @@ require_once __DIR__ . '/../layout/header.php';
 
     <script>
         document.getElementById('buy-cow').addEventListener('click', async () => {
-            const response = await fetch('/page-a/buy', { method: 'POST' });
+            const response = await fetch('/page-a/buy', {
+                method: 'POST',
+                body: new URLSearchParams({ _csrf: '<?= $this->e($_SESSION['csrf']) ?>' }),
+            });
 
             if (response.status === 201) {
                 document.getElementById('buy-cow').remove();

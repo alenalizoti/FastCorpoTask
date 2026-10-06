@@ -28,6 +28,7 @@
         <?php endif; ?>
 
         <form method="post" action="/login">
+            <input type="hidden" name="_csrf" value="<?= $this->e($_SESSION['csrf']) ?>">
             <label>
                 Email
                 <input type="email" name="email" required autocomplete="email"

@@ -80,6 +80,7 @@
         <h1>Create an account</h1>
 
         <form method="post" action="/register">
+            <input type="hidden" name="_csrf" value="<?= $this->e($_SESSION['csrf']) ?>">
             <label>
                 Name
                 <input type="text" name="name" required maxlength="100" autocomplete="name"
